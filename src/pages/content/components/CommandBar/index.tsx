@@ -14,7 +14,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import "@pages/content/components/CommandBar/index.css";
 import "@pages/content/style.css";
 
-export default function CommandBar(props) {
+const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const actions = [
     {
       id: "new-tab",
@@ -37,23 +37,24 @@ export default function CommandBar(props) {
   return (
     <KBarProvider actions={actions}>
       <KBarPortal>
-        <KBarPositioner>
+        <KBarPositioner className="z-50">
           <KBarAnimator className="bg-white text-slate-600 shadow-2xl max-w-xl w-full rounded-lg overflow-hidden hide-scroll-bar">
             <KBarSearch
               placeholder="Type a command or search…"
-              className="bg-white text-slate-600 w-full px-4 py-3 box-border border-none outline-none"
+              className="bg-white text-black w-full px-4 py-3 box-border border-none outline-none"
             />
             <RenderResults />
           </KBarAnimator>
         </KBarPositioner>
       </KBarPortal>
-
-      {props.children}
+      {children}
     </KBarProvider>
   );
-}
+};
 
-function RenderResults() {
+export default CommandBar;
+
+const RenderResults: React.FC = () => {
   const { results } = useMatches();
 
   const [tabs, setTabs] = useState<chrome.tabs.Tab[]>([]);
@@ -62,7 +63,9 @@ function RenderResults() {
     return tabs.map((tab) => {
       return createAction({
         name: tab.title,
+        subtitle: tab.url,
         keywords: tab.title,
+        section: "Opened Tabs",
         perform: () => window.open(tab.url),
         icon: (
           <img
@@ -86,7 +89,7 @@ function RenderResults() {
       const tabs = await chrome.runtime.sendMessage({ type: "GET_ALL_TABS" });
       setTabs(tabs);
     } catch (error) {
-      console.log({ error });
+      console.error({ error });
     }
   };
 
@@ -95,15 +98,7 @@ function RenderResults() {
       items={results}
       onRender={({ item, active }) =>
         typeof item === "string" ? (
-          <div
-            style={{
-              padding: "8px 16px",
-              fontSize: "10px",
-              textTransform: "uppercase",
-              letterSpacing: "1px",
-              background: "$command",
-            }}
-          >
+          <div className="px-4 py-2 text-xs text-gray-400 uppercase tracking-wider ">
             {item}
           </div>
         ) : (
@@ -112,36 +107,37 @@ function RenderResults() {
       }
     />
   );
-}
+};
 
 const ResultItem = React.forwardRef(
   ({ action, active }: { action: ActionImpl; active: boolean }, ref: any) => {
     return (
-      <div ref={ref} style={getResultStyle(active)}>
-        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+      <div
+        ref={ref}
+        className={`flex items-center justify-between cursor-pointer px-4 py-3 border-l-2 ${
+          active
+            ? "bg-slate-200 border-black"
+            : "bg-transparent border-transparent"
+        }`}
+      >
+        <div className="flex gap-2 items-center">
           {action.icon && action.icon}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
+          <div className="flex flex-col text-ellipsis">
             <span>{action.name}</span>
           </div>
         </div>
+
+        {active && action.subtitle && (
+          <span className="text-xs text-gray-400 text-ellipsis">
+            {action.subtitle}
+          </span>
+        )}
+
         {action.shortcut?.length ? (
-          <div
-            aria-hidden
-            style={{ display: "grid", gridAutoFlow: "column", gap: "4px" }}
-          >
+          <div aria-hidden className="grid gap-1 items-center grid-flow-col">
             {action.shortcut.map((shortcut) => (
               <kbd
-                style={{
-                  background: "rgba(255, 255, 255, .1)",
-                  color: "$secondary",
-                  padding: "4px 8px",
-                  textTransform: "uppercase",
-                }}
+                className="bg-slate-200 text-black rounded-sm uppercase"
                 key={shortcut}
               >
                 {shortcut}
@@ -153,22 +149,3 @@ const ResultItem = React.forwardRef(
     );
   }
 );
-
-const iconStyle = {
-  fontSize: "20px",
-  position: "relative",
-  top: "-2px",
-};
-
-const getResultStyle = (active) => {
-  return {
-    padding: "12px 16px",
-    background: active ? "rgba(255, 255, 255, 0.1)" : "$command",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    margin: 0,
-    cursor: "pointer",
-    color: active ? "$primary" : "$secondary",
-  };
-};

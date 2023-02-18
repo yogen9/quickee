@@ -28,6 +28,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse(tabs);
       });
       break;
+    case "OPEN_TAB":
+      chrome.tabs
+        .update(message.payload.tabId, {
+          active: true,
+          highlighted: true,
+        })
+        .then(() => {
+          sendResponse(true);
+        });
+      break;
     default:
       sendResponse({});
       break;

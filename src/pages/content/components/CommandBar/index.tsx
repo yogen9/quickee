@@ -66,7 +66,7 @@ const RenderResults: React.FC = () => {
         subtitle: tab.url,
         keywords: tab.title,
         section: "Opened Tabs",
-        perform: () => window.open(tab.url),
+        perform: () => openSelectedTab(tab.id),
         icon: (
           <img
             className="inline-block h-5 w-5 rounded-full ring-1 ring-white"
@@ -88,6 +88,17 @@ const RenderResults: React.FC = () => {
     try {
       const tabs = await chrome.runtime.sendMessage({ type: "GET_ALL_TABS" });
       setTabs(tabs);
+    } catch (error) {
+      console.error({ error });
+    }
+  };
+
+  const openSelectedTab = async (tabId: number) => {
+    try {
+      await chrome.runtime.sendMessage({
+        type: "OPEN_TAB",
+        payload: { tabId },
+      });
     } catch (error) {
       console.error({ error });
     }

@@ -122,13 +122,13 @@ const ResultItem = React.forwardRef(
       >
         <div className="flex gap-2 items-center">
           {action.icon && action.icon}
-          <div className="flex flex-col text-ellipsis">
+          <div className="flex flex-col truncate">
             <span>{action.name}</span>
           </div>
         </div>
 
         {active && action.subtitle && (
-          <span className="text-xs text-gray-400 text-ellipsis">
+          <span className="text-xs text-gray-400 truncate">
             {action.subtitle}
           </span>
         )}

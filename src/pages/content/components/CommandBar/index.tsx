@@ -37,8 +37,8 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
     <KBarProvider actions={actions}>
       <KBarPortal>
-        <KBarPositioner className="z-50">
-          <KBarAnimator className="bg-white text-slate-600 shadow-2xl max-w-xl w-full rounded-lg overflow-hidden hide-scroll-bar">
+        <KBarPositioner className="z-50 backdrop-blur-sm">
+          <KBarAnimator className="bg-white text-slate-600 shadow-2xl max-w-[600px] w-full rounded-lg overflow-hidden hide-scroll-bar">
             <KBarSearch
               placeholder="Type a command or search…"
               className="bg-white text-black w-full px-4 py-3 box-border border-none outline-none"
@@ -114,7 +114,7 @@ const ResultItem = React.forwardRef(
     return (
       <div
         ref={ref}
-        className={`flex items-center justify-between cursor-pointer px-4 py-3 border-l-2 ${
+        className={`flex items-center gap-1 justify-between cursor-pointer px-4 py-3 border-l-2 ${
           active
             ? "bg-slate-200 border-black"
             : "bg-transparent border-transparent"

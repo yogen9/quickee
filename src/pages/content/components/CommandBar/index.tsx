@@ -22,7 +22,11 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
       shortcut: ["n"],
       keywords: "new-tab",
       section: "Shortcuts",
-      perform: () => navigator.clipboard.writeText(window.location.href),
+      perform: () => {
+        chrome.runtime.sendMessage({
+          type: "NEW_TAB",
+        });
+      },
     },
     {
       id: "duplicate-tab",
@@ -30,7 +34,11 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
       shortcut: ["d"],
       keywords: "duplicate-tab",
       section: "Shortcuts",
-      perform: () => navigator.clipboard.writeText(window.location.href),
+      perform: () => {
+        chrome.runtime.sendMessage({
+          type: "DUPLICATE_TAB",
+        });
+      },
     },
   ];
 
@@ -38,7 +46,7 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
     <KBarProvider actions={actions}>
       <KBarPortal>
         <KBarPositioner className="z-50 backdrop-blur-sm">
-          <KBarAnimator className="bg-white text-slate-600 shadow-2xl max-w-[600px] w-full rounded-lg overflow-hidden hide-scroll-bar">
+          <KBarAnimator className="bg-white text-slate-600 max-w-[600px] w-full rounded-lg overflow-hidden hide-scroll-bar shadow-[0px_6px_20px_rgba(0,0,0,20%)]">
             <KBarSearch
               placeholder="Type a command or search…"
               className="bg-white text-black w-full px-4 py-3 box-border border-none outline-none"

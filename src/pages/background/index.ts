@@ -38,6 +38,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           sendResponse(true);
         });
       break;
+    case "DUPLICATE_TAB":
+      chrome.tabs.duplicate(sender.tab.id);
+      sendResponse(true);
+      break;
+    case "NEW_TAB":
+      chrome.tabs.create({ active: true });
+      sendResponse(true);
+      break;
     default:
       sendResponse({});
       break;

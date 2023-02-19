@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import "@assets/style/tailwind.css";
+import "@assets/style/tailwind.scss";
 import "@pages/popup/index.css";
 import Popup from "@pages/popup/Popup";
 import refreshOnUpdate from "virtual:reload-on-update-in-view";

@@ -6,6 +6,9 @@ module.exports = {
         "spin-slow": "spin 20s linear infinite",
       },
     },
+    // fontFamily: {
+    //   quicksand: ["Quicksand", "sans-serif"],
+    // },
   },
   plugins: [],
 };

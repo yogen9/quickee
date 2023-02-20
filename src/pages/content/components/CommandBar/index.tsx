@@ -14,6 +14,10 @@ import React, { useState, useMemo, useEffect } from "react";
 import "@pages/content/components/CommandBar/index.css";
 
 const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+  const quickeeShadowRoot = document
+    .getElementById("quickee-root")
+    .shadowRoot.getElementById("quickee-shadow-root");
+
   const actions = [
     {
       id: "new-tab",
@@ -43,7 +47,7 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
 
   return (
     <KBarProvider actions={actions}>
-      <KBarPortal>
+      <KBarPortal container={quickeeShadowRoot}>
         <KBarPositioner className="z-50 backdrop-blur-sm">
           <KBarAnimator className="bg-white text-slate-600 max-w-[600px] w-full rounded-[8px] overflow-hidden hide-scroll-bar shadow-[0px_6px_20px_rgba(0,0,0,20%)]">
             <KBarSearch
@@ -139,10 +143,12 @@ const ResultItem = React.forwardRef(
         }`}
       >
         <div className="flex gap-[8px] items-center">
-          {action.icon && action.icon}
-          <div className="flex flex-col truncate">
-            <span>{action.name}</span>
-          </div>
+          <>
+            {action.icon && action.icon}
+            <div className="flex flex-col truncate">
+              <span>{action.name}</span>
+            </div>
+          </>
         </div>
 
         {active && action.subtitle && (

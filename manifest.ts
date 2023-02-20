@@ -24,7 +24,6 @@ const manifest: chrome.runtime.ManifestV3 = {
     {
       matches: ["http://*/*", "https://*/*", "<all_urls>"],
       js: ["src/pages/content/index.js"],
-      css: ["assets/css/contentStyle.chunk.css"],
     },
   ],
   devtools_page: "src/pages/devtools/index.html",

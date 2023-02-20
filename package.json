@@ -1,11 +1,11 @@
 {
-  "name": "cmd-tabs",
-  "displayName": "Command Tabs",
+  "name": "quickee",
+  "displayName": "Quickee",
   "version": "0.0.1",
-  "description": "command tabs",
+  "description": "Tabs on your fingers",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yogen9/cmd-tabs.git"
+    "url": "https://github.com/yogen9/quickee.git"
   },
   "scripts": {
     "build": "tsc --noEmit && vite build",

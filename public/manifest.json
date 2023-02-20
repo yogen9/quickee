@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "cmd-tabs",
+  "name": "quickee",
   "version": "0.0.1",
-  "description": "command tabs",
+  "description": "Tabs on your fingers",
   "options_ui": {
     "page": "src/pages/options/index.html"
   },
@@ -25,9 +25,6 @@
       ],
       "js": [
         "src/pages/content/index.js"
-      ],
-      "css": [
-        "assets/css/contentStyle.chunk.css"
       ]
     }
   ],

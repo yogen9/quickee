@@ -32,6 +32,10 @@ export default defineConfig({
     customDynamicImport(),
     addHmr({ background: enableHmrInBackgroundScript, view: true }),
   ],
+  // TODO: Remove when Kbar PR merged: https://github.com/timc1/kbar/pull/291
+  optimizeDeps: {
+    exclude: ["kbar"],
+  },
   publicDir,
   build: {
     outDir,
@@ -45,7 +49,6 @@ export default defineConfig({
         background: resolve(pagesDir, "background", "index.ts"),
         panel: resolve(pagesDir, "panel", "index.html"),
         popup: resolve(pagesDir, "popup", "index.html"),
-        contentStyle: resolve(pagesDir, "content", "style.scss"),
         // newtab: resolve(pagesDir, "newtab", "index.html"),
         options: resolve(pagesDir, "options", "index.html"),
       },

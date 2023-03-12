@@ -46,6 +46,21 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       chrome.tabs.create({ active: true });
       sendResponse(true);
       break;
+    case "OPTIMIZE_TAB":
+      chrome.tabs.query({}).then((tabs) => {
+        const uniqueTabsMap = {};
+        chrome.tabs.query({}).then((tabs) => {
+          tabs.forEach((tab) => {
+            if (!uniqueTabsMap[tab.url]) {
+              uniqueTabsMap[tab.url] = tab;
+            } else {
+              chrome.tabs.remove(tab.id);
+            }
+          });
+          sendResponse(true);
+        });
+      });
+      break;
     default:
       sendResponse({});
       break;

@@ -20,9 +20,19 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
 
   const actions = [
     {
+      id: "optimize-tab",
+      name: "Optimize",
+      keywords: "optimize-tab",
+      section: "Shortcuts",
+      perform: () => {
+        chrome.runtime.sendMessage({
+          type: "OPTIMIZE_TAB",
+        });
+      },
+    },
+    {
       id: "new-tab",
       name: "New Tab",
-      shortcut: ["n"],
       keywords: "new-tab",
       section: "Shortcuts",
       perform: () => {
@@ -34,7 +44,6 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
     {
       id: "duplicate-tab",
       name: "Duplicate Tab",
-      shortcut: ["d"],
       keywords: "duplicate-tab",
       section: "Shortcuts",
       perform: () => {

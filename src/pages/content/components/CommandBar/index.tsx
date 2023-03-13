@@ -12,6 +12,9 @@ import {
 } from "kbar";
 import React, { useState, useMemo, useEffect } from "react";
 import "@pages/content/components/CommandBar/index.css";
+import DuplicateIcon from "@assets/icons/Duplicate";
+import CreateIcon from "@assets/icons/Create";
+import ThunderIcon from "@assets/icons/Thunder";
 
 const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const quickeeShadowRoot = document
@@ -24,6 +27,7 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
       name: "Optimize",
       keywords: "optimize-tab",
       section: "Shortcuts",
+      icon: <ThunderIcon />,
       perform: () => {
         chrome.runtime.sendMessage({
           type: "OPTIMIZE_TAB",
@@ -33,6 +37,7 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
     {
       id: "new-tab",
       name: "New Tab",
+      icon: <CreateIcon />,
       keywords: "new-tab",
       section: "Shortcuts",
       perform: () => {
@@ -44,6 +49,7 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
     {
       id: "duplicate-tab",
       name: "Duplicate Tab",
+      icon: <DuplicateIcon />,
       keywords: "duplicate-tab",
       section: "Shortcuts",
       perform: () => {
@@ -161,7 +167,7 @@ const ResultItem = React.forwardRef(
         </div>
 
         {active && action.subtitle && (
-          <span className="text-xs text-gray-400 truncate">
+          <span className="text-[12px] text-gray-400 truncate">
             {action.subtitle}
           </span>
         )}

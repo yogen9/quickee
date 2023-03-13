@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  #quickee-shadow-root {
+    font-family: Inter, system-ui, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+  }
+}

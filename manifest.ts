@@ -8,7 +8,6 @@ const manifest: chrome.runtime.ManifestV3 = {
   name: packageJson.name,
   version: packageJson.version,
   description: packageJson.description,
-  options_ui: { page: "src/pages/options/index.html" },
   background: {
     service_worker: "src/pages/background/index.js",
     type: "module",
@@ -26,7 +25,11 @@ const manifest: chrome.runtime.ManifestV3 = {
       js: ["src/pages/content/index.js"],
     },
   ],
-  devtools_page: "src/pages/devtools/index.html",
+  // chrome_url_overrides: {
+  //   newtab: "src/pages/newtab/index.html",
+  // },
+  // options_ui: { page: "src/pages/options/index.html" },
+  // devtools_page: "src/pages/devtools/index.html",
   web_accessible_resources: [
     {
       resources: [
@@ -38,14 +41,7 @@ const manifest: chrome.runtime.ManifestV3 = {
       matches: ["*://*/*"],
     },
   ],
-  permissions: [
-    "activeTab",
-    "scripting",
-    "tabs",
-    "storage",
-    "webNavigation",
-    "webRequest",
-  ],
+  permissions: ["activeTab", "scripting", "tabs"],
   host_permissions: ["https://*/*", "http://*/*"],
 };
 

@@ -44,13 +44,13 @@ export default defineConfig({
     reportCompressedSize: isProduction,
     rollupOptions: {
       input: {
-        devtools: resolve(pagesDir, "devtools", "index.html"),
         content: resolve(pagesDir, "content", "index.ts"),
         background: resolve(pagesDir, "background", "index.ts"),
-        panel: resolve(pagesDir, "panel", "index.html"),
-        popup: resolve(pagesDir, "popup", "index.html"),
         // newtab: resolve(pagesDir, "newtab", "index.html"),
-        options: resolve(pagesDir, "options", "index.html"),
+        // devtools: resolve(pagesDir, "devtools", "index.html"),
+        // panel: resolve(pagesDir, "panel", "index.html"),
+        // popup: resolve(pagesDir, "popup", "index.html"),
+        // options: resolve(pagesDir, "options", "index.html"),
       },
       watch: {
         include: ["src/**", "vite.config.ts", "manifest.ts"],

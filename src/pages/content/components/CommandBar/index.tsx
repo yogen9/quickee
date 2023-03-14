@@ -12,7 +12,7 @@ import {
 } from "kbar";
 import React, { useState, useMemo, useEffect } from "react";
 import "@pages/content/components/CommandBar/index.css";
-import { Duplicate, Close, Create, Thunder } from "@assets/icons";
+import { Duplicate, Create, Thunder } from "@assets/icons";
 
 const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const quickeeShadowRoot = document
@@ -186,8 +186,6 @@ const ResultItem = React.forwardRef(
               ))}
             </div>
           )}
-
-          {active && <Close className="w-4 h-4" />}
         </div>
       </div>
     );

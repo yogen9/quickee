@@ -1,7 +1,7 @@
 import React from "react";
 import { IconProps } from "./types";
 
-const Create = ({ className }: IconProps) => {
+const Close = ({ className }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,10 +14,10 @@ const Create = ({ className }: IconProps) => {
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M12 4.5v15m7.5-7.5h-15"
+        d="M6 18L18 6M6 6l12 12"
       />
     </svg>
   );
 };
 
-export default Create;
+export default Close;

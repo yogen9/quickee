@@ -12,9 +12,7 @@ import {
 } from "kbar";
 import React, { useState, useMemo, useEffect } from "react";
 import "@pages/content/components/CommandBar/index.css";
-import DuplicateIcon from "@assets/icons/Duplicate";
-import CreateIcon from "@assets/icons/Create";
-import ThunderIcon from "@assets/icons/Thunder";
+import { Duplicate, Close, Create, Thunder } from "@assets/icons";
 
 const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const quickeeShadowRoot = document
@@ -27,7 +25,7 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
       name: "Optimize",
       keywords: "optimize-tab",
       section: "Shortcuts",
-      icon: <ThunderIcon />,
+      icon: <Thunder />,
       perform: () => {
         chrome.runtime.sendMessage({
           type: "OPTIMIZE_TAB",
@@ -37,7 +35,7 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
     {
       id: "new-tab",
       name: "New Tab",
-      icon: <CreateIcon />,
+      icon: <Create />,
       keywords: "new-tab",
       section: "Shortcuts",
       perform: () => {
@@ -49,7 +47,7 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
     {
       id: "duplicate-tab",
       name: "Duplicate Tab",
-      icon: <DuplicateIcon />,
+      icon: <Duplicate />,
       keywords: "duplicate-tab",
       section: "Shortcuts",
       perform: () => {
@@ -63,7 +61,7 @@ const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
     <KBarProvider actions={actions}>
       <KBarPortal container={quickeeShadowRoot}>
-        <KBarPositioner className="z-50 backdrop-blur-sm">
+        <KBarPositioner className="z-[130] backdrop-blur-sm">
           <KBarAnimator className="bg-white text-slate-600 max-w-[600px] w-full rounded-[8px] overflow-hidden hide-scroll-bar shadow-[0px_6px_20px_rgba(0,0,0,20%)]">
             <KBarSearch
               placeholder="Type a command or search…"
@@ -166,27 +164,31 @@ const ResultItem = React.forwardRef(
           </>
         </div>
 
-        {active && action.subtitle && (
-          <span className="text-[12px] text-gray-400 truncate">
-            {action.subtitle}
-          </span>
-        )}
+        <div className={`flex items-center justify-end gap-[4px]`}>
+          {active && action.subtitle && (
+            <span className="text-[12px] text-gray-400 truncate">
+              {action.subtitle}
+            </span>
+          )}
 
-        {action.shortcut?.length ? (
-          <div
-            aria-hidden
-            className="grid gap-[4px] items-center grid-flow-col"
-          >
-            {action.shortcut.map((shortcut) => (
-              <kbd
-                className="bg-slate-200 text-black rounded-[2px] uppercase"
-                key={shortcut}
-              >
-                {shortcut}
-              </kbd>
-            ))}
-          </div>
-        ) : null}
+          {action.shortcut?.length && (
+            <div
+              aria-hidden
+              className="grid gap-[4px] items-center grid-flow-col p-[2px]"
+            >
+              {action.shortcut.map((shortcut) => (
+                <kbd
+                  className="bg-slate-200 text-black rounded-[2px] uppercase"
+                  key={shortcut}
+                >
+                  {shortcut}
+                </kbd>
+              ))}
+            </div>
+          )}
+
+          {active && <Close className="w-4 h-4" />}
+        </div>
       </div>
     );
   }

@@ -12,7 +12,7 @@ import {
 } from "kbar";
 import React, { useState, useMemo, useEffect } from "react";
 import "@pages/content/components/CommandBar/index.css";
-import { Duplicate, Create, Thunder } from "@assets/icons";
+import { Duplicate, Create, Thunder, Close } from "@assets/icons";
 
 const CommandBar: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const quickeeShadowRoot = document
@@ -85,20 +85,23 @@ const RenderResults: React.FC = () => {
 
   const actions = useMemo(() => {
     return tabs.map((tab) => {
-      return createAction({
-        name: tab.title,
-        subtitle: tab.url,
-        keywords: tab.title,
-        section: "Opened Tabs",
-        perform: () => openSelectedTab(tab.id),
-        icon: (
-          <img
-            className="inline-block h-[20px] w-[20px] rounded-full ring-1 ring-white"
-            src={tab.favIconUrl}
-            alt=""
-          />
-        ),
-      });
+      return {
+        ...createAction({
+          name: tab.title,
+          subtitle: tab.url,
+          keywords: tab.title,
+          section: "Opened Tabs",
+          perform: () => openSelectedTab(tab.id),
+          icon: (
+            <img
+              className="inline-block h-[20px] w-[20px] rounded-full ring-1 ring-white"
+              src={tab.favIconUrl}
+              alt=""
+            />
+          ),
+        }),
+        tabId: tab.id,
+      };
     });
   }, [tabs]);
 
@@ -128,6 +131,18 @@ const RenderResults: React.FC = () => {
     }
   };
 
+  const closeTab = async (tabId: number) => {
+    try {
+      await chrome.runtime.sendMessage({
+        type: "CLOSE_TAB",
+        payload: { tabId },
+      });
+      setTabs((tabs) => tabs.filter((tab) => tab.id !== tabId));
+    } catch (error) {
+      console.error({ error });
+    }
+  };
+
   return (
     <KBarResults
       items={results}
@@ -137,15 +152,25 @@ const RenderResults: React.FC = () => {
             {item}
           </div>
         ) : (
-          <ResultItem action={item} active={active} />
+          <ResultItem
+            action={item as any}
+            active={active}
+            closeTab={closeTab}
+          />
         )
       }
     />
   );
 };
 
+type ResultItemProps = {
+  action: ActionImpl & { tabId: number };
+  active: boolean;
+  closeTab: (tabId: number) => void;
+};
+
 const ResultItem = React.forwardRef(
-  ({ action, active }: { action: ActionImpl; active: boolean }, ref: any) => {
+  ({ action, active, closeTab }: ResultItemProps, ref: any) => {
     return (
       <div
         ref={ref}
@@ -185,6 +210,17 @@ const ResultItem = React.forwardRef(
                 </kbd>
               ))}
             </div>
+          )}
+
+          {active && action.section !== "Shortcuts" && (
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                closeTab(action.tabId);
+              }}
+            >
+              <Close className="h-[14px] w-[14px]" />
+            </span>
           )}
         </div>
       </div>

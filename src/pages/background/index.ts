@@ -46,6 +46,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       chrome.tabs.create({ active: true });
       sendResponse(true);
       break;
+    case "CLOSE_TAB":
+      chrome.tabs.remove(message.payload.tabId).then(() => {
+        sendResponse(true);
+      });
+      break;
     case "OPTIMIZE_TAB":
       chrome.tabs.query({}).then((tabs) => {
         const uniqueTabsMap = {};

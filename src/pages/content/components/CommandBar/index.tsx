@@ -63,10 +63,10 @@ const CommandBar: React.FC<CommandBarProps> = ({ children, container }) => {
     <KBarProvider actions={actions}>
       <KBarPortal container={container}>
         <KBarPositioner className="z-[130] backdrop-blur-sm">
-          <KBarAnimator className="bg-white text-slate-600 max-w-[600px] w-full rounded-[8px] overflow-hidden hide-scroll-bar shadow-[0px_6px_20px_rgba(0,0,0,20%)]">
+          <KBarAnimator className="bg-white text-slate-600 max-w-[600px] w-full rounded-lg overflow-hidden hide-scroll-bar shadow-[0px_6px_20px_rgba(0,0,0,20%)]">
             <KBarSearch
               placeholder="Type a command or search…"
-              className="bg-white text-black w-full px-[16px] py-[12px] box-border border-none outline-none"
+              className="bg-white text-black w-full px-4 py-3 box-border border-none outline-none"
             />
             <RenderResults />
           </KBarAnimator>
@@ -95,7 +95,7 @@ const RenderResults: React.FC = () => {
           perform: () => openSelectedTab(tab.id),
           icon: (
             <img
-              className="inline-block h-[20px] w-[20px] rounded-full ring-1 ring-white"
+              className="inline-block h-5 w-5 rounded-full ring-1 ring-white"
               src={tab.favIconUrl}
               alt=""
             />
@@ -149,7 +149,7 @@ const RenderResults: React.FC = () => {
       items={results}
       onRender={({ item, active }) =>
         typeof item === "string" ? (
-          <div className="px-[16px] py-[12px] text-xs text-gray-400 uppercase tracking-wider ">
+          <div className="px-4 py-3 text-xs text-gray-400 uppercase tracking-wider ">
             {item}
           </div>
         ) : (
@@ -175,13 +175,13 @@ const ResultItem = React.forwardRef(
     return (
       <div
         ref={ref}
-        className={`flex items-center gap-[4px] justify-between cursor-pointer px-[16px] py-[12px] border-l-2 ${
+        className={`flex items-center gap-1 justify-between cursor-pointer px-4 py-3 border-l-2 ${
           active
             ? "bg-slate-200 border-black"
             : "bg-transparent border-transparent"
         }`}
       >
-        <div className="flex gap-[8px] items-center">
+        <div className="flex gap-2 items-center">
           <>
             {action.icon && action.icon}
             <div className="flex flex-col truncate">
@@ -190,9 +190,9 @@ const ResultItem = React.forwardRef(
           </>
         </div>
 
-        <div className={`flex items-center justify-end gap-[4px]`}>
+        <div className={`flex items-center justify-end gap-1`}>
           {active && action.subtitle && (
-            <span className="text-[12px] text-gray-400 truncate">
+            <span className="text-xs text-gray-400 truncate">
               {action.subtitle}
             </span>
           )}
@@ -200,11 +200,11 @@ const ResultItem = React.forwardRef(
           {action.shortcut?.length && (
             <div
               aria-hidden
-              className="grid gap-[4px] items-center grid-flow-col p-[2px]"
+              className="grid gap-1 items-center grid-flow-col p-0.5"
             >
               {action.shortcut.map((shortcut) => (
                 <kbd
-                  className="bg-slate-200 text-black rounded-[2px] uppercase"
+                  className="bg-slate-200 text-black rounded-sm uppercase"
                   key={shortcut}
                 >
                   {shortcut}
@@ -220,7 +220,7 @@ const ResultItem = React.forwardRef(
                 closeTab(action.tabId);
               }}
             >
-              <Close className="h-[14px] w-[14px]" />
+              <Close className="h-3.5 w-3.5" />
             </span>
           )}
         </div>

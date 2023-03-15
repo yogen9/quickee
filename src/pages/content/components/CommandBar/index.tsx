@@ -66,7 +66,7 @@ const CommandBar: React.FC<CommandBarProps> = ({ children, container }) => {
           <KBarAnimator className="bg-white text-slate-600 max-w-[600px] w-full rounded-lg overflow-hidden hide-scroll-bar shadow-[0px_6px_20px_rgba(0,0,0,20%)]">
             <KBarSearch
               placeholder="Type a command or search…"
-              className="bg-white text-black w-full px-4 py-3 box-border border-none outline-none"
+              className="bg-white text-black w-full px-4 py-3 box-border border-none outline-none text-base"
             />
             <RenderResults />
           </KBarAnimator>
@@ -184,7 +184,7 @@ const ResultItem = React.forwardRef(
         <div className="flex gap-2 items-center">
           <>
             {action.icon && action.icon}
-            <div className="flex flex-col truncate">
+            <div className="flex flex-col truncate text-base">
               <span>{action.name}</span>
             </div>
           </>

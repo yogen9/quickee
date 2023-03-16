@@ -13,6 +13,26 @@ import {
 import React, { useState, useMemo, useEffect } from "react";
 import "@pages/content/components/CommandBar/index.css";
 import { Duplicate, Create, Thunder, Close } from "@assets/icons";
+import css from "@assets/style/tailwind.scss";
+import ReactShadowRoot from "@src/pages/ReactShadowRoot";
+
+export const theme = {
+  background: "rgb(252, 252, 252)",
+  foreground: "rgb(28, 28, 29)",
+  shadow: "0px 6px 20px rgba(0, 0, 0, 20%)",
+};
+
+export const animatorStyle: React.CSSProperties = {
+  all: "initial",
+  fontFamily: "Inter, system-ui, sans-serif",
+  maxWidth: "600px",
+  width: "100%",
+  background: theme.background,
+  color: theme.foreground,
+  borderRadius: "8px",
+  overflow: "hidden",
+  boxShadow: theme.shadow,
+};
 
 type CommandBarProps = {
   children?: React.ReactNode;
@@ -62,13 +82,21 @@ const CommandBar: React.FC<CommandBarProps> = ({ children, container }) => {
   return (
     <KBarProvider actions={actions}>
       <KBarPortal container={container}>
-        <KBarPositioner className="z-[130] backdrop-blur-sm">
-          <KBarAnimator className="bg-white text-slate-600 max-w-[600px] w-full rounded-lg overflow-hidden hide-scroll-bar shadow-[0px_6px_20px_rgba(0,0,0,20%)]">
-            <KBarSearch
-              placeholder="Type a command or search…"
-              className="bg-white text-black w-full px-4 py-3 box-border border-none outline-none text-base"
-            />
-            <RenderResults />
+        <KBarPositioner
+          style={{
+            zIndex: 130,
+            backdropFilter: "blur(4px)",
+          }}
+        >
+          <KBarAnimator style={animatorStyle} className="hide-scroll-bar">
+            <ReactShadowRoot mode="open">
+              <style>{css}</style>
+              <KBarSearch
+                placeholder="Type a command or search…"
+                className="bg-white text-black w-full px-4 py-3 box-border border-none outline-none text-base"
+              />
+              <RenderResults />
+            </ReactShadowRoot>
           </KBarAnimator>
         </KBarPositioner>
       </KBarPortal>

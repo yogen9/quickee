@@ -53,17 +53,33 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       break;
     case "OPTIMIZE_TAB":
       chrome.tabs.query({}).then((tabs) => {
+        // remove duplicate tabs
         const uniqueTabsMap = {};
-        chrome.tabs.query({}).then((tabs) => {
-          tabs.forEach((tab) => {
-            if (!uniqueTabsMap[tab.url]) {
-              uniqueTabsMap[tab.url] = tab;
-            } else {
-              chrome.tabs.remove(tab.id);
-            }
-          });
-          sendResponse(true);
+        tabs.forEach((tab) => {
+          if (!uniqueTabsMap[tab.url]) {
+            uniqueTabsMap[tab.url] = tab;
+          } else {
+            chrome.tabs.remove(tab.id);
+          }
         });
+
+        // group tabs by domain
+        let hash = tabs.reduce((hash, tab) => {
+          const domAndDir = tab.url
+            .replace(/(^\w+:|^)\/\//, "")
+            .split("/")?.[0];
+          if (!domAndDir) return hash;
+          hash[domAndDir] = (hash[domAndDir] || []).concat(tab.id);
+          return hash;
+        }, {});
+
+        const domains = Object.keys(hash).sort();
+        domains.forEach((key) => {
+          const tabIds = hash[key];
+          chrome.tabs.move(tabIds, { index: -1 });
+        });
+
+        sendResponse(true);
       });
       break;
     default:

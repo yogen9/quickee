@@ -12,7 +12,14 @@ import {
 } from "kbar";
 import React, { useState, useMemo, useEffect } from "react";
 import "@pages/content/components/CommandBar/index.css";
-import { Duplicate, Create, Thunder, Close } from "@assets/icons";
+import {
+  Duplicate,
+  Create,
+  Thunder,
+  Close,
+  Clipboard,
+  ClipboardCheck,
+} from "@assets/icons";
 import css from "@assets/style/tailwind.scss";
 import ReactShadowRoot from "@src/pages/ReactShadowRoot";
 
@@ -36,10 +43,9 @@ export const animatorStyle: React.CSSProperties = {
 
 type CommandBarProps = {
   children?: React.ReactNode;
-  container?: HTMLElement;
 };
 
-const CommandBar: React.FC<CommandBarProps> = ({ children, container }) => {
+const CommandBar: React.FC<CommandBarProps> = ({ children }) => {
   const actions = [
     {
       id: "optimize-tab",
@@ -81,7 +87,7 @@ const CommandBar: React.FC<CommandBarProps> = ({ children, container }) => {
 
   return (
     <KBarProvider actions={actions}>
-      <KBarPortal container={container}>
+      <KBarPortal>
         <KBarPositioner
           style={{
             zIndex: 130,
@@ -200,6 +206,18 @@ type ResultItemProps = {
 
 const ResultItem = React.forwardRef(
   ({ action, active, closeTab }: ResultItemProps, ref: any) => {
+    const [copied, setCopied] = useState(false);
+
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        if (copied) setCopied(false);
+      }, 1000);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }, [copied]);
+
     return (
       <div
         ref={ref}
@@ -209,22 +227,21 @@ const ResultItem = React.forwardRef(
             : "bg-transparent border-transparent"
         }`}
       >
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center overflow-hidden">
           <>
             {action.icon && action.icon}
-            <div className="flex flex-col truncate text-base">
-              <span>{action.name}</span>
+            <div className="flex flex-col text-base overflow-hidden">
+              <span className="truncate">{action.name}</span>
+              {action.subtitle && (
+                <span className="text-xs text-gray-400 truncate">
+                  {action.subtitle}
+                </span>
+              )}
             </div>
           </>
         </div>
 
         <div className={`flex items-center justify-end gap-1`}>
-          {active && action.subtitle && (
-            <span className="text-xs text-gray-400 truncate">
-              {action.subtitle}
-            </span>
-          )}
-
           {action.shortcut?.length && (
             <div
               aria-hidden
@@ -242,14 +259,35 @@ const ResultItem = React.forwardRef(
           )}
 
           {active && action.section !== "Shortcuts" && (
-            <span
-              onClick={(e) => {
-                e.stopPropagation();
-                closeTab(action.tabId);
-              }}
-            >
-              <Close className="h-3.5 w-3.5" />
-            </span>
+            <>
+              {copied ? (
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <ClipboardCheck />
+                </span>
+              ) : (
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCopied(true);
+                    navigator.clipboard.writeText(action.subtitle!);
+                  }}
+                >
+                  <Clipboard className="h-6 w-6 icon-hover" />
+                </span>
+              )}
+              <span
+                onClick={(e) => {
+                  e.stopPropagation();
+                  closeTab(action.tabId);
+                }}
+              >
+                <Close className="h-6 w-6 icon-hover" />
+              </span>
+            </>
           )}
         </div>
       </div>

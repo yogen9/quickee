@@ -8,4 +8,8 @@
     font-style: normal;
     font-weight: 400;
   }
+
+  .icon-hover {
+    @apply hover:bg-white hover:rounded-lg;
+  }
 }

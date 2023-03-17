@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "quickee",
   "version": "0.1.0",
-  "description": "Tabs on your fingers",
+  "description": "Tabs on steroids",
   "background": {
     "service_worker": "src/pages/background/index.js",
     "type": "module"

@@ -1,8 +1,8 @@
 {
   "name": "quickee",
   "displayName": "Quickee",
-  "version": "0.0.1",
-  "description": "Tabs on your fingers",
+  "version": "0.1.0",
+  "description": "Tabs on steroids",
   "repository": {
     "type": "git",
     "url": "https://github.com/yogen9/quickee.git"

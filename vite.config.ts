@@ -33,9 +33,9 @@ export default defineConfig({
     addHmr({ background: enableHmrInBackgroundScript, view: true }),
   ],
   // TODO: Remove when Kbar PR merged: https://github.com/timc1/kbar/pull/291
-  optimizeDeps: {
-    exclude: ["kbar"],
-  },
+  // optimizeDeps: {
+  //   exclude: ["kbar"],
+  // },
   publicDir,
   build: {
     outDir,

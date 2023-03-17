@@ -1,17 +1,20 @@
 {
   "manifest_version": 3,
   "name": "quickee",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Tabs on your fingers",
   "background": {
     "service_worker": "src/pages/background/index.js",
     "type": "module"
   },
   "action": {
-    "default_icon": "icon-34.png"
+    "default_icon": "quickee-32.png"
   },
   "icons": {
-    "128": "icon-128.png"
+    "16": "quickee-16.png",
+    "32": "quickee-32.png",
+    "48": "quickee-48.png",
+    "128": "quickee-128.png"
   },
   "content_scripts": [
     {
@@ -30,8 +33,10 @@
       "resources": [
         "assets/js/*.js",
         "assets/css/*.css",
-        "icon-128.png",
-        "icon-34.png"
+        "quickee-16.png",
+        "quickee-32.png",
+        "quickee-48.png",
+        "quickee-128.png"
       ],
       "matches": [
         "*://*/*"

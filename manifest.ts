@@ -14,10 +14,13 @@ const manifest: chrome.runtime.ManifestV3 = {
   },
   action: {
     // default_popup: "src/pages/popup/index.html",
-    default_icon: "icon-34.png",
+    default_icon: "quickee-32.png",
   },
   icons: {
-    "128": "icon-128.png",
+    "16": "quickee-16.png",
+    "32": "quickee-32.png",
+    "48": "quickee-48.png",
+    "128": "quickee-128.png",
   },
   content_scripts: [
     {
@@ -25,18 +28,15 @@ const manifest: chrome.runtime.ManifestV3 = {
       js: ["src/pages/content/index.js"],
     },
   ],
-  // chrome_url_overrides: {
-  //   newtab: "src/pages/newtab/index.html",
-  // },
-  // options_ui: { page: "src/pages/options/index.html" },
-  // devtools_page: "src/pages/devtools/index.html",
   web_accessible_resources: [
     {
       resources: [
         "assets/js/*.js",
         "assets/css/*.css",
-        "icon-128.png",
-        "icon-34.png",
+        "quickee-16.png",
+        "quickee-32.png",
+        "quickee-48.png",
+        "quickee-128.png",
       ],
       matches: ["*://*/*"],
     },

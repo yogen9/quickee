@@ -47,9 +47,5 @@
     "activeTab",
     "scripting",
     "tabs"
-  ],
-  "host_permissions": [
-    "https://*/*",
-    "http://*/*"
   ]
 }

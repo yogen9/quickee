@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "quickee",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Tabs on steroids",
   "background": {
     "service_worker": "src/pages/background/index.js",

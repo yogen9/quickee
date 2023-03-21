@@ -65,6 +65,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         // group tabs by domain
         let hash = tabs.reduce((hash, tab) => {
+          if (tab.groupId !== -1) return hash;
           const domAndDir = tab.url
             .replace(/(^\w+:|^)\/\//, "")
             .split("/")?.[0];

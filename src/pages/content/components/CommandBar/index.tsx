@@ -52,6 +52,7 @@ const CommandBar: React.FC<CommandBarProps> = ({ children }) => {
       name: "Optimize",
       keywords: "optimize-tab",
       section: "Shortcuts",
+      shortcut: ["o"],
       icon: <Thunder />,
       perform: () => {
         chrome.runtime.sendMessage({
@@ -65,6 +66,7 @@ const CommandBar: React.FC<CommandBarProps> = ({ children }) => {
       icon: <Create />,
       keywords: "new-tab",
       section: "Shortcuts",
+      shortcut: ["n"],
       perform: () => {
         chrome.runtime.sendMessage({
           type: "NEW_TAB",
@@ -77,6 +79,7 @@ const CommandBar: React.FC<CommandBarProps> = ({ children }) => {
       icon: <Duplicate />,
       keywords: "duplicate-tab",
       section: "Shortcuts",
+      shortcut: ["d"],
       perform: () => {
         chrome.runtime.sendMessage({
           type: "DUPLICATE_TAB",
@@ -86,11 +89,16 @@ const CommandBar: React.FC<CommandBarProps> = ({ children }) => {
   ];
 
   return (
-    <KBarProvider actions={actions}>
+    <KBarProvider
+      actions={actions}
+      options={{
+        toggleShortcut: "$mod+P",
+      }}
+    >
       <KBarPortal>
         <KBarPositioner
           style={{
-            zIndex: 130,
+            zIndex: 9999,
             backdropFilter: "blur(4px)",
           }}
         >
@@ -98,7 +106,7 @@ const CommandBar: React.FC<CommandBarProps> = ({ children }) => {
             <ReactShadowRoot mode="open">
               <style>{css}</style>
               <KBarSearch
-                placeholder="Type a command or search…"
+                placeholder="Search…"
                 className="bg-white text-black w-full px-4 py-3 box-border border-none outline-none text-base"
               />
               <RenderResults />
@@ -249,7 +257,7 @@ const ResultItem = React.forwardRef(
             >
               {action.shortcut.map((shortcut) => (
                 <kbd
-                  className="bg-slate-200 text-black rounded-sm uppercase"
+                  className="bg-slate-200 text-black rounded-sm uppercase p-0.5"
                   key={shortcut}
                 >
                   {shortcut}

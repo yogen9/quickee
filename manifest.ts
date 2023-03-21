@@ -42,6 +42,7 @@ const manifest: chrome.runtime.ManifestV3 = {
     },
   ],
   permissions: ["scripting", "tabs"],
+  host_permissions: ["https://*/*", "http://*/*"],
 };
 
 export default manifest;
